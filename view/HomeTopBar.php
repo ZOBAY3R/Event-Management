@@ -126,7 +126,7 @@
 <body>
     <div class="top-bar">
         <div><a class="company-name" href="start">EventX</a></div>
-        <a href="Home">Home</a>
+        <a href="Index">Home</a>
         <a href="HomeEvents">Events</a>
         <a href="HomeServices">Services</a>
         <a href="HomeBlog">Blog</a>
