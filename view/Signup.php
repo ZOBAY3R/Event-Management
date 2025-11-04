@@ -160,91 +160,152 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Signup Page</title>
     <style>
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #f2f2f2;
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            height: 100vh;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            color: #333;
         }
 
         .container {
-            max-width: 400px;
-            padding: 20px;
             background-color: #ffffff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.7s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h2 {
             text-align: center;
+            color: #222;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
         }
 
         label {
-            display: inline-block;
-            font-weight: bold;
-            margin-bottom: 5px;
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #444;
         }
 
         input[type="text"],
         input[type="password"],
         input[type="email"] {
-            width: 90%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: 0.3s ease;
+            margin-bottom: 18px;
+        }
+
+        input:focus {
+            border-color: #2575fc;
+            outline: none;
+            box-shadow: 0 0 5px rgba(37, 117, 252, 0.4);
         }
 
         input[type="checkbox"] {
-            margin-right: 5px;
+            margin-right: 8px;
+            transform: scale(1.2);
+            vertical-align: middle;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
-        .form-group:last-child {
-            margin-bottom: 0;
+        /* ✅ Fix checkbox & label alignment */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-weight: 500;
+            color: #444;
         }
 
         .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #ffffff;
-            text-align: center;
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+            color: white;
+            font-weight: 600;
+            padding: 12px;
             border: none;
-            border-radius: 3px;
+            border-radius: 8px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
         }
 
         .btn:hover {
-            background-color: #0056b3;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            transform: scale(1.03);
+            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+        }
+
+        .warning {
+            color: #e74c3c;
+            font-size: 14px;
+            margin: -10px 0 10px 0;
+        }
+
+        .success-message {
+            background-color: #2ecc71;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .warning-box {
+            background-color: #ffe0e0;
+            color: #e74c3c;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 15px;
         }
 
         .text-center {
             text-align: center;
+            margin-top: 15px;
         }
 
-        .warning {
-            color: red;
+        .text-center a {
+            color: #2575fc;
+            text-decoration: none;
+            font-weight: 600;
         }
 
-        .success-message {
-            text-align: center;
-            background-color: #4CAF50; /* Green background */
-            color: #fff;
-            padding: 10px;
+        .text-center a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <?php if (!empty($errorMessages)) : ?>
-            <div class="warning">
+            <div class="warning-box">
                 <?php echo implode("<br>", $errorMessages); ?>
             </div>
         <?php endif; ?>
@@ -255,44 +316,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endif; ?>
 
-        <h2>Sign Up</h2>
+        <h2>Create Account</h2>
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" onsubmit="return validateForm()">
             <div class="form-group">
-                <label for="name">Full Name:</label>
-                <input type="text" id="name" name="name">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name">
                 <p id="nameError" class="warning"></p>
             </div>
+
             <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="example@email.com">
                 <p id="emailError" class="warning"></p>
             </div>
+
             <div class="form-group">
-                <label for="cnumber">Contact Number:</label>
-                <input type="text" id="cnumber" name="cnumber" pattern="01[3-9]\d{8}" title="Enter a valid contact number.">
+                <label for="cnumber">Contact Number</label>
+                <input type="text" id="cnumber" name="cnumber" pattern="01[3-9]\d{8}" title="Enter a valid contact number." placeholder="01XXXXXXXXX">
                 <p id="cnumberError" class="warning"></p>
             </div>
+
             <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a password">
                 <p id="passwordError" class="warning"></p>
             </div>
+
             <div class="form-group">
-                <label for="cpassword">Confirm Password:</label>
-                <input type="password" id="cpassword" name="cpassword">
+                <label for="cpassword">Confirm Password</label>
+                <input type="password" id="cpassword" name="cpassword" placeholder="Re-enter your password">
                 <p id="cpasswordError" class="warning"></p>
             </div>
-            <div class="form-group">
+
+            <!-- ✅ Fixed alignment -->
+            <div class="checkbox-group">
                 <input type="checkbox" id="agree" name="agree">
-                <label for="agree">I agree to the terms and conditions</label>
+                <label for="agree">I agree to the Terms & Conditions</label>
             </div>
-            <div class="form-group text-center">
-                <button type="submit" id="signupButton" class="btn">Sign Up</button>
-            </div>
+
+            <button type="submit" id="signupButton" class="btn">Sign Up</button>
         </form>
-        <center>
+
+        <div class="text-center">
             <p>Already have an account? <a href="UserLogin.php">Login</a></p>
-        </center>
+        </div>
     </div>
 </body>
 </html>

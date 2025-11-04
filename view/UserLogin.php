@@ -7,46 +7,53 @@ $username = "root";
 $password = "";
 $database = "event_management";
 
-// Create a connection to the database
+// Create a connection
 $conn = new mysqli($servername, $username, $password, $database);
-
-// Check the connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$errors = array(); // Create an array to store error messages
+$errors = array();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $id = $_POST["id"];
+    $identifier = trim($_POST["identifier"]); // user id, email, or phone
     $password = $_POST["password"];
+    $identifierField = '';
 
-    // Sanitize user input
-    $id = $conn->real_escape_string($id);
-
-    // Query to retrieve user data
-    $query = "SELECT id, password, status FROM credential WHERE id = '$id'";
-    $result = $conn->query($query);
-
-    if (!$result) {
-        $errors[] = "Database query error: " . $conn->error;
+    // Detect type
+    if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
+        $identifierField = "email";
+    } elseif (preg_match('/^01[3-9]\d{8}$/', $identifier)) {
+        $identifierField = "cnumber";
     } else {
-        if ($result->num_rows == 1) {
-            $row = $result->fetch_assoc();
+        $identifierField = "id";
+    }
 
-            if ($password === $row["password"]) {
-                if ($row["status"] == 1) {
-                    $_SESSION["id"] = $row["id"];
-                    header("Location: UserProfile.php");
-                    exit;
+    if (empty($errors)) {
+        $identifier = $conn->real_escape_string($identifier);
+        $query = "SELECT id, password, status FROM credential WHERE $identifierField = '$identifier'";
+        $result = $conn->query($query);
+
+        if (!$result) {
+            $errors[] = "Database query error: " . $conn->error;
+        } else {
+            if ($result->num_rows == 1) {
+                $row = $result->fetch_assoc();
+
+                if ($password === $row["password"]) {
+                    if ($row["status"] == 1) {
+                        $_SESSION["id"] = $row["id"];
+                        header("Location: UserProfile.php");
+                        exit;
+                    } else {
+                        $errors[] = "Account is not active. Please contact support.";
+                    }
                 } else {
-                    $errors[] = "Account is not active. Please contact support.";
+                    $errors[] = "Invalid credentials.";
                 }
             } else {
-                $errors[] = "Invalid user ID or password.";
+                $errors[] = "Invalid credentials.";
             }
-        } else {
-            $errors[] = "Invalid user ID or password.";
         }
     }
 }
@@ -58,111 +65,121 @@ $conn->close();
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #f2f2f2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Login</title>
+<style>
+    body {
+        font-family: 'Poppins', Arial, sans-serif;
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #333;
+    }
 
-        .container {
-            max-width: 400px;
-            padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    .container {
+        background-color: #ffffff;
+        border-radius: 15px;
+        padding: 40px 30px;
+        width: 100%;
+        max-width: 420px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 0.7s ease;
+        text-align: center;
+    }
 
-        h2 {
-            text-align: center;
-        }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-        label {
-            display: inline-block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
+    h2 {
+        color: #222;
+        margin-bottom: 30px;
+        letter-spacing: 1px;
+    }
 
-        input[type="text"],
-        input[type="password"] {
-            width: 90%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 14px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 15px;
+        transition: 0.3s ease;
+    }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+    input:focus {
+        border-color: #2575fc;
+        outline: none;
+        box-shadow: 0 0 5px rgba(37,117,252,0.4);
+    }
 
-        .form-group:last-child {
-            margin-bottom: 0;
-        }
+    .btn {
+        width: 100%;
+        background: linear-gradient(135deg, #2575fc, #6a11cb);
+        color: white;
+        font-weight: 600;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        letter-spacing: 0.5px;
+    }
 
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #ffffff;
-            text-align: center;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
+    .btn:hover {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        transform: scale(1.03);
+        box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+    }
 
-        .btn:hover {
-            background-color: #0056b3;
-        }
+    .error-messages {
+        background-color: #ffe0e0;
+        color: #e74c3c;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
 
-        .text-center {
-            text-align: center;
-        }
-    </style>
+    .text-center a {
+        color: #2575fc;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .text-center a:hover {
+        text-decoration: underline;
+    }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h2>User ID Login</h2>
+<div class="container">
+    <h2>User Login</h2>
 
-        <!-- Display errors at the top of the page -->
-        <?php if (!empty($errors)) : ?>
-            <div style="color: red; text-align: center;">
-                <?php foreach ($errors as $error) : ?>
-                    <p><?php echo $error; ?></p>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
+    <?php if (!empty($errors)) : ?>
+        <div class="error-messages">
+            <?php foreach ($errors as $error) : ?>
+                <p><?php echo $error; ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 
-        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-            <div class="form-group">
-                <label for="id">User ID:</label>
-                <input type="text" id="id" name="id" required placeholder="Ex. 1234">
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="form-group text-center">
-                <button type="submit" class="btn">Login</button>
-            </div>
-        </form>
-        <center>
+    <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <input type="text" name="identifier" placeholder="User ID / Email / Phone" required>
+        <input type="password" name="password" placeholder="Enter your password" required>
+        <button type="submit" class="btn">Login</button>
+    </form>
+
+    <div class="text-center">
         <p><a href="Recover.php">Forgot password?</a></p>
-        <p>Login Using <a href="UserLoginEmail.php">E-Mail</a> Or <a href="UserLoginPhone.php">Phone</a></p>
-        </center>
-        <center>
         <p>Don't have an account? <a href="Signup.php">Signup</a></p>
-        </center>
-        <center>
         <p><a href="Home.php">Back To Home</a></p>
-        </center>
     </div>
+</div>
 </body>
 </html>

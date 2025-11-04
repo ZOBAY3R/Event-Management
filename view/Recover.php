@@ -101,94 +101,118 @@ if (isset($_POST['sendlink_btn'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password</title>
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #f2f2f2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forgot Password</title>
+<style>
+    /* ---- Base Styles ---- */
+    body {
+        font-family: 'Poppins', Arial, sans-serif;
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #333;
+    }
 
-        .container {
-            max-width: 400px;
-            padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    .container {
+        background-color: #ffffff;
+        border-radius: 15px;
+        padding: 40px 30px;
+        width: 100%;
+        max-width: 420px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 0.7s ease;
+        text-align: center;
+    }
 
-        h2 {
-            text-align: center;
-        }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
+    h2 {
+        color: #222;
+        margin-bottom: 30px;
+        letter-spacing: 1px;
+    }
 
-        input[type="email"] {
-            width: 90%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
+    label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+        text-align: left;
+        color: #444;
+    }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+    input[type="email"] {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 15px;
+        transition: 0.3s ease;
+    }
 
-        .form-group:last-child {
-            margin-bottom: 0;
-        }
+    input[type="email"]:focus {
+        border-color: #2575fc;
+        outline: none;
+        box-shadow: 0 0 5px rgba(37, 117, 252, 0.4);
+    }
 
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #ffffff;
-            text-align: center;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #2575fc, #6a11cb);
+        color: white;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        letter-spacing: 0.5px;
+    }
 
-        .btn:hover {
-            background-color: #0056b3;
-        }
+    .btn:hover {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        transform: scale(1.03);
+        box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+    }
 
-        .text-center {
-            text-align: center;
-        }
-    </style>
+    .info-text {
+        margin-top: 15px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .info-text a {
+        color: #2575fc;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .info-text a:hover {
+        text-decoration: underline;
+    }
+</style>
 </head>
-
 <body>
-    <div class="container">
-        <h2>Forgot Password</h2>
-        <form method="POST">
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group text-center">
-                <button type="submit" class="btn" name="sendlink_btn">Reset Password</button>
-            </div>
-        </form>
-        <center>
-            <p>If the provided email matches an account, a recovery email will be sent.</p>
-            <p><a href="UserLogin.php">Back to Login</a></p>
-        </center>
+<div class="container">
+    <h2>Forgot Password</h2>
+    <form method="POST">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <button type="submit" class="btn" name="sendlink_btn">Reset Password</button>
+    </form>
+    <div class="info-text">
+        <p>If the provided email matches an account, a recovery email will be sent.</p>
+        <p><a href="UserLogin.php">Back to Login</a></p>
     </div>
+</div>
 </body>
 </html>
