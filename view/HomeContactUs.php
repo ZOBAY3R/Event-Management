@@ -164,6 +164,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <textarea id="description" name="description" rows="4" required></textarea>
 
         <button type="submit" class="btn">Submit</button>
+        
+        <p style="text-align:center; margin-top:15px;">
+        <a href="Home.php" style="color:#2575fc; text-decoration:none; font-weight:600;">Back To Home</a>
+        </p>
     </form>
 </div>
 </body>
