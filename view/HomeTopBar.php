@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/Event-Management/view/">
     <style>
         /* Basic CSS styles for the top bar */
         .top-bar {
@@ -124,17 +125,17 @@
 </head>
 <body>
     <div class="top-bar">
-        <div><a class="company-name" href="start.php">EventX</a></div>
-        <a href="Home.php">Home</a>
-        <a href="HomeEvents.php">Events</a>
-        <a href="HomeServices.php">Services</a>
-        <a href="HomeBlog.php">Blog</a>
-        <a href="index.php">Gallery</a>
-        <a href="HomeVenue.php">Venue</a>
-        <a href="HomeEventSupport.php">Event Support</a>
-        <a href="HomeTicketVerify.php">Verify Ticket</a>
-        <a id="Login-button" href="UserLogin.php">Login</a>
-        <a id="book-button" href="UserTicket.php">Book Now</a>
+        <div><a class="company-name" href="start">EventX</a></div>
+        <a href="Home">Home</a>
+        <a href="HomeEvents">Events</a>
+        <a href="HomeServices">Services</a>
+        <a href="HomeBlog">Blog</a>
+        <a href="index">Gallery</a>
+        <a href="HomeVenue">Venue</a>
+        <a href="HomeEventSupport">Event Support</a>
+        <a href="HomeTicketVerify">Verify Ticket</a>
+        <a id="Login-button" href="UserLogin">Login</a>
+        <a id="book-button" href="UserTicket">Book Now</a>
     </div>
 </body>
 </html>

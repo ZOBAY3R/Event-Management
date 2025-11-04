@@ -1,0 +1,12 @@
+# Enable URL rewriting
+RewriteEngine On
+
+# Set the base directory (adjust if your folder name differs)
+RewriteBase /Event-Management/view/
+
+# If the request does not point to a real file or directory
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Rewrite URLs like /Home to /Home.php
+RewriteRule ^([^/]+)/?$ $1.php [L]
