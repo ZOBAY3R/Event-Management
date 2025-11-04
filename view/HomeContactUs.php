@@ -4,169 +4,166 @@ $username = "root";
 $pass = "";
 $dbname = "event_management";
 
+$displaySuccessMessage = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $conn = new mysqli($servername, $username, $pass, $dbname);
 
-
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-
 
     $name = $_POST["name"];
     $email = $_POST["email"];
     $contact = $_POST["contact"];
     $description = $_POST["description"];
 
-
     $sql = "INSERT INTO complaint (name, email, contact, description) VALUES ('$name', '$email', '$contact', '$description')";
 
-    $displaySuccessMessage = false;
+    if ($conn->query($sql) === TRUE) {
+        $displaySuccessMessage = true;
+    } 
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-        if ($conn->query($sql) === TRUE) {
-            $displaySuccessMessage = true;
-        } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-        }
-    }
-
-    if ($displaySuccessMessage) {
-        echo '<div class="success-message">Complaint submitted successfully.</div>';
-    }
     $conn->close();
 }
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Contact US</title>
-    <style>
-        
-        
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #f2f2f2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin-right: 20px;
-        }
-
-        .container {
-            max-width: 400px;
-            padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            text-align: center;
-        }
-
-        label {
-            display: inline-block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        textarea {
-            width: 95%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
-
-        textarea {
-            resize: vertical;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group:last-child {
-            margin-bottom: 0;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #ffffff;
-            text-align: center;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background-color: #0056b3;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .success-message {
-            background-color: #4CAF50;
-            color: white;
-            justify-content: left;
-            text-align: center;
-            padding: 10px;
-            margin-top: 10px;
-            position: absolute;
-            top: 0;
-        }
-
-        .semi-transparent {
-      opacity: 0.5;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Public Query Form</title>
+<style>
+    body {
+        font-family: 'Poppins', Arial, sans-serif;
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #333;
     }
 
-    </style>
+    .container {
+        background-color: #ffffff;
+        border-radius: 15px;
+        padding: 35px 30px;
+        width: 100%;
+        max-width: 450px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        animation: fadeIn 0.7s ease;
+        position: relative;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+        text-align: center;
+        color: #222;
+        margin-bottom: 15px;
+        letter-spacing: 1px;
+    }
+
+    h3 {
+        text-align: center;
+        color: #555;
+        font-weight: 400;
+        margin-bottom: 25px;
+        opacity: 0.7;
+        font-size: 14px;
+    }
+
+    label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #444;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+        border-color: #2575fc;
+        outline: none;
+        box-shadow: 0 0 5px rgba(37,117,252,0.4);
+    }
+
+    .btn {
+        width: 100%;
+        background: linear-gradient(135deg, #2575fc, #6a11cb);
+        color: white;
+        font-weight: 600;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        letter-spacing: 0.5px;
+    }
+
+    .btn:hover {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        transform: scale(1.03);
+        box-shadow: 0 4px 15px rgba(106,17,203,0.3);
+    }
+
+    .success-message {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 20px;
+        animation: fadeIn 0.5s ease;
+    }
+
+    @media(max-width: 500px){
+        .container {
+            padding: 30px 20px;
+        }
+    }
+</style>
 </head>
 <body>
-
 <div class="container">
-    <h2 class="text-center">Public Query Form</h2>
-    <h3 class="text-center semi-transparent">After a successful submission you'll be contacted from our service center.</h3>
+    <h2>Public Query Form</h2>
+    <h3>After a successful submission, you'll be contacted by our service center.</h3>
+
+    <?php if($displaySuccessMessage): ?>
+        <div class="success-message">Complaint submitted successfully.</div>
+    <?php endif; ?>
 
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-        </div>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
 
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
 
-        <div class="form-group">
-            <label for "contact">Contact Number:</label>
-            <input type="tel" id="contact_number" name="contact" required>
-        </div>
+        <label for="contact">Contact Number</label>
+        <input type="tel" id="contact" name="contact" placeholder="01XXXXXXXXX" pattern="01[3-9]\d{8}" required>
 
-        <div class="form-group">
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" rows="4" required></textarea>
-        </div>
-        <center>
-            <div class="form-group">
-                <input type="submit" class="btn" value="Submit">
-            </div>
-        </center>
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+
+        <button type="submit" class="btn">Submit</button>
     </form>
 </div>
 </body>

@@ -130,7 +130,7 @@
         <a href="HomeEvents">Events</a>
         <a href="HomeServices">Services</a>
         <a href="HomeBlog">Blog</a>
-        <a href="index">Gallery</a>
+        <a href="HomeGallery">Gallery</a>
         <a href="HomeVenue">Venue</a>
         <a href="HomeEventSupport">Event Support</a>
         <a href="HomeTicketVerify">Verify Ticket</a>
