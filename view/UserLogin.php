@@ -178,7 +178,7 @@ $conn->close();
     <div class="text-center">
         <p><a href="Recover.php">Forgot password?</a></p>
         <p>Don't have an account? <a href="Signup.php">Signup</a></p>
-        <p><a href="Home.php">Back To Home</a></p>
+        <p><a href="Index">Back To Home</a></p>
     </div>
 </div>
 </body>

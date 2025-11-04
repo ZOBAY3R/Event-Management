@@ -13,7 +13,7 @@ dash.php
 details.php
 EventsArchiveView.php
 footer.php
-Home.php
+Index.php
 HomeBlog.php
 HomeContactUs.php
 HomeEvents.php

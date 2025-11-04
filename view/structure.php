@@ -32,7 +32,7 @@ project/
 |   |-- AdminVenueBookHistory.php
 |   |-- AdminVenueManagement.php
 |-- home/
-|   |-- Home.php
+|   |-- Index.php
 |   |-- HomeBlog.php
 |   |-- HomeContactUs.php
 |   |-- HomeEventSupport.php

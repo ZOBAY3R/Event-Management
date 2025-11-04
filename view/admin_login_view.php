@@ -67,7 +67,7 @@
         Password: <input type="password" name="password" ><br>
         <input type="submit" value="Login">
         <center>
-        <p><a href="Home.php">Back To Home</a></p>
+        <p><a href="Index">Back To Home</a></p>
         </center>
     </form>
 
